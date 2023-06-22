@@ -8,6 +8,7 @@ import Zone from './components/Zone';
 function App() {
 
   const [items, setitems] = useState(inputs);
+  const [tableItems, settableItems] = useState([])
 
   const handleChanges = (e: any) => {
     console.log(e.target.value)
@@ -26,6 +27,10 @@ function App() {
     }
   }
 
+  const showValues= ()=>{
+    settableItems(items.filter(el=> el.side === 'right'));
+  }
+
   return (
     <DndProvider backend={HTML5Backend}>
     <div className='w-screen bg-white m-0 p-0 h-screen'>
@@ -36,10 +41,10 @@ function App() {
         </div>
 
       <div className='flex justify-center mt-4'>
-        <button className='bg-blue-600 w-60 h-8 rounded text-white'>Save</button>
+        <button className='bg-blue-600 w-60 h-8 rounded text-white' onClick={showValues}>Save</button>
       </div>
 
-      <section className='mt-4 flex justify-center'>
+      {tableItems.length && <section className='mt-4 flex justify-center'>
         <table className='rounded border-collapse border border-slate-400'>
           <thead className='bg-slate-100'>
             <tr>
@@ -48,7 +53,7 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {items.filter(el=> el.side === 'right').map(el => {
+            {tableItems.map(el => {
               return <tr key={el.id}>
                 <td className='p-2 border border-slate-300'>{el.id}</td>
                 <td className='p-2 border border-slate-300'>
@@ -58,7 +63,7 @@ function App() {
             })}
           </tbody>
         </table>
-      </section>
+      </section>}
     </div>
     </DndProvider>
   )
